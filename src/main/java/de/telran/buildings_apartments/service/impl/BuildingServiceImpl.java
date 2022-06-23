@@ -35,7 +35,8 @@ public class BuildingServiceImpl implements BuildingService {
     public void create(BuildingRequestDTO buildingDto, int apartmentsCount) {
         if (repository.findBuildingByHouseAndStreet(buildingDto.getHouse(), buildingDto.getStreet()) != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "Such a building already exists");
+                    String.format("The building with number '%s' on the ", buildingDto.getHouse())
+                            + String.format("'%s' street already exists!", buildingDto.getStreet()));
         }
 
         repository.save(convertToEntityBuilding(buildingDto));
@@ -99,7 +100,10 @@ public class BuildingServiceImpl implements BuildingService {
         if (apartment.getBuilding().getId().equals(buildingId)) {
             Owner owner = getOwnerByOwnerId(ownerId);
 
-            if (owner.getApartment().getId().equals(apartmentId)) {
+            if (owner.getApartment() == null) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT,
+                        String.format("The owner with id [%s] has no apartment !", ownerId));
+            } else if (owner.getApartment().getId().equals(apartmentId)) {
                 owner.setApartment(null);
                 ownerRepository.save(owner);
             } else
