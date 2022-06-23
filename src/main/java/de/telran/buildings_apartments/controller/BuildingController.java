@@ -44,9 +44,20 @@ public class BuildingController {
 
 
     @PutMapping("/buildings/{buildingId}/apartments/{apartmentId}/owners/{ownerId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public void moveOwnerToApartment(@PathVariable("buildingId") Long buildingId,
                                      @PathVariable("apartmentId") Long apartmentId,
-                                     @PathVariable("ownerId") Long ownerId){
+                                     @PathVariable("ownerId") Long ownerId) {
         service.moveAnOwner(buildingId, apartmentId, ownerId);
+    }
+
+
+    @DeleteMapping("/buildings/{buildingId}/apartments/{apartmentId}/owners/{ownerId}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void evictOwnerFromApartment(@PathVariable("buildingId") Long buildingId,
+                                        @PathVariable("apartmentId") Long apartmentId,
+                                        @PathVariable("ownerId") Long ownerId) {
+
+        service.evictOwnerFromApartment(buildingId, apartmentId, ownerId);
     }
 }

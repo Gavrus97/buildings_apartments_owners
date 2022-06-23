@@ -91,6 +91,28 @@ public class BuildingServiceImpl implements BuildingService {
                             + String.format("[%s]", buildingId));
     }
 
+    @Override
+    public void evictOwnerFromApartment(Long buildingId, Long apartmentId, Long ownerId) {
+        Building building = findBuildingById(buildingId); // для not found
+        Apartment apartment = getApartmentByApartmentId(apartmentId); // для not fount
+
+        if (apartment.getBuilding().getId().equals(buildingId)) {
+            Owner owner = getOwnerByOwnerId(ownerId);
+
+            if (owner.getApartment().getId().equals(apartmentId)) {
+                owner.setApartment(null);
+                ownerRepository.save(owner);
+            } else
+                throw new ResponseStatusException(HttpStatus.CONFLICT,
+                        String.format("The owner with id [%s] isn't an owner of the apartment with id ", ownerId)
+                                + String.format("[%s]", apartmentId));
+
+        } else
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    String.format("The apartment with id [%s] isn't in the building with id ", apartmentId)
+                            + String.format("[%s]", buildingId));
+    }
+
     private Apartment getApartmentByApartmentId(Long id) {
         return apartmentRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
