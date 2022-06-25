@@ -18,23 +18,23 @@ public class OwnerController {
 
     @PostMapping("/owners")
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody OwnerRequestDTO ownerDto){
+    public void create(@RequestBody OwnerRequestDTO ownerDto) {
         service.create(ownerDto);
     }
 
     @PutMapping("/owners/{id}")
     public void edit(@PathVariable("id") Long id,
-                     @RequestBody OwnerRequestDTO ownerDto){
+                     @RequestBody OwnerRequestDTO ownerDto) {
         service.edit(id, ownerDto);
     }
 
     @GetMapping("/owners")
-    public List<OwnerResponseDTO> getAll(){
+    public List<OwnerResponseDTO> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/owners/{id}")
-    public OwnerResponseDTO getById(@PathVariable("id") Long id){
+    public OwnerResponseDTO getById(@PathVariable("id") Long id) {
         return service.getById(id);
     }
 }

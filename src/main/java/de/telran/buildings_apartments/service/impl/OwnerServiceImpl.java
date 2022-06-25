@@ -24,6 +24,14 @@ public class OwnerServiceImpl implements OwnerService {
     private ApartmentRepository apartmentRepository;
 
     @Override
+    public List<Long> findOwnersIdsWithApartmentNotNull() {
+        return repository.findOwnersByApartmentIsNotNull()
+                .stream()
+                .map(x -> x.getApartment().getId())
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void create(OwnerRequestDTO ownerDto) {
         repository.save(convertToOwnerEntity(ownerDto));
     }

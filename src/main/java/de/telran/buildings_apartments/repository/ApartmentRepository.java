@@ -10,5 +10,13 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 
     Integer countApartmentsByBuildingId(Long id);
 
+    List<Apartment> findApartmentsByBuildingId(Long id);
+
     List<Apartment> findApartmentsByBuilding(Building building);
+
+    List<Apartment> findAllByBuildingIdAndIdIsIn(Long buildingId, List<Long> apartmentIds);
+
+    Apartment findApartmentByIdAndBuildingId(Long apartmentId, Long buildingId);
+
+    void deleteApartmentsByIdIsIn(List<Long> apartmentsId);
 }

@@ -23,4 +23,6 @@ public interface BuildingService {
 
     void evictOwnerFromApartment(Long buildingId, Long apartmentId, Long ownerId);
 
+    void deleteBuilding(Long buildingId);
+
 }

@@ -11,11 +11,13 @@ import de.telran.buildings_apartments.repository.ApartmentRepository;
 import de.telran.buildings_apartments.repository.BuildingRepository;
 import de.telran.buildings_apartments.repository.OwnerRepository;
 import de.telran.buildings_apartments.service.BuildingService;
+import de.telran.buildings_apartments.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,9 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Autowired
     private OwnerRepository ownerRepository;
+
+    @Autowired
+    private OwnerService ownerService;
 
     @Override
     public void create(BuildingRequestDTO buildingDto, int apartmentsCount) {
@@ -62,7 +67,13 @@ public class BuildingServiceImpl implements BuildingService {
     //???????????????????????????????????????????
     @Override
     public List<ApartmentResponseDTO> getApartmentsWithOwnersById(Long buildingId) {
-        return null;
+        return apartmentRepository
+                .findAllByBuildingIdAndIdIsIn(
+                        buildingId,
+                        ownerService.findOwnersIdsWithApartmentNotNull())
+                .stream()
+                .map(this::convertApartmentToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -94,27 +105,62 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public void evictOwnerFromApartment(Long buildingId, Long apartmentId, Long ownerId) {
-        Building building = findBuildingById(buildingId); // для not found
-        Apartment apartment = getApartmentByApartmentId(apartmentId); // для not fount
 
-        if (apartment.getBuilding().getId().equals(buildingId)) {
-            Owner owner = getOwnerByOwnerId(ownerId);
+        Owner owner = ownerRepository.
+                findOwnerByIdAndApartmentId(
+                        ownerId,
+                        apartmentRepository.findApartmentByIdAndBuildingId(
+                                        apartmentId,
+                                        findBuildingById(buildingId).getId())
+                                .getId()
+                );
+        owner.setApartment(null);
+        ownerRepository.save(owner);
 
-            if (owner.getApartment() == null) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT,
-                        String.format("The owner with id [%s] has no apartment !", ownerId));
-            } else if (owner.getApartment().getId().equals(apartmentId)) {
-                owner.setApartment(null);
-                ownerRepository.save(owner);
-            } else
-                throw new ResponseStatusException(HttpStatus.CONFLICT,
-                        String.format("The owner with id [%s] isn't an owner of the apartment with id ", ownerId)
-                                + String.format("[%s]", apartmentId));
 
-        } else
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    String.format("The apartment with id [%s] isn't in the building with id ", apartmentId)
-                            + String.format("[%s]", buildingId));
+//        Building building = findBuildingById(buildingId); // для not found
+//        Apartment apartment = getApartmentByApartmentId(apartmentId); // для not fount
+//
+//        if (apartment.getBuilding().getId().equals(buildingId)) {
+//            Owner owner = getOwnerByOwnerId(ownerId);
+//
+//            if (owner.getApartment() == null) {
+//                throw new ResponseStatusException(HttpStatus.CONFLICT,
+//                        String.format("The owner with id [%s] has no apartment !", ownerId));
+//            } else if (owner.getApartment().getId().equals(apartmentId)) {
+//                owner.setApartment(null);
+//                ownerRepository.save(owner);
+//            } else
+//                throw new ResponseStatusException(HttpStatus.CONFLICT,
+//                        String.format("The owner with id [%s] isn't an owner of the apartment with id ", ownerId)
+//                                + String.format("[%s]", apartmentId));
+//
+//        } else
+//            throw new ResponseStatusException(HttpStatus.CONFLICT,
+//                    String.format("The apartment with id [%s] isn't in the building with id ", apartmentId)
+//                            + String.format("[%s]", buildingId));
+    }
+
+    @Override
+    @Transactional
+    public void deleteBuilding(Long buildingId) {
+        Building building = findBuildingById(buildingId);
+
+        List<Apartment> apartments = apartmentRepository.findApartmentsByBuildingId(buildingId);
+        List<Long> apartmentsId = apartments
+                .stream()
+                .map(Apartment::getId)
+                .collect(Collectors.toList());
+
+        List<Long> ownersId = ownerRepository.findOwnersByApartmentIsIn(apartments)
+                .stream()
+                .map(Owner::getId)
+                .collect(Collectors.toList());
+
+        ownerRepository.deleteAllByIdIsIn(ownersId);
+        apartmentRepository.deleteApartmentsByIdIsIn(apartmentsId);
+
+        repository.delete(building);
     }
 
     private Apartment getApartmentByApartmentId(Long id) {

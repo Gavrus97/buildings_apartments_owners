@@ -60,4 +60,10 @@ public class BuildingController {
 
         service.evictOwnerFromApartment(buildingId, apartmentId, ownerId);
     }
+
+
+    @DeleteMapping("/buildings/{id}/demolish")
+    public void demolishBuilding(@PathVariable("id") Long buildingId){
+        service.deleteBuilding(buildingId);
+    }
 }

@@ -15,4 +15,6 @@ public interface OwnerService {
 
     OwnerResponseDTO getById(Long id);
 
+    List<Long> findOwnersIdsWithApartmentNotNull();
+
 }
