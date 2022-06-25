@@ -15,5 +15,4 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
     List<Owner> findOwnersByApartmentIsIn(List<Apartment> apartments);
 
-    void deleteAllByIdIsIn(List<Long> ownersId);
 }

@@ -18,5 +18,4 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 
     Apartment findApartmentByIdAndBuildingId(Long apartmentId, Long buildingId);
 
-    void deleteApartmentsByIdIsIn(List<Long> apartmentsId);
 }

@@ -1,6 +1,5 @@
 package de.telran.buildings_apartments.repository;
 
-import de.telran.buildings_apartments.entity.Apartment;
 import de.telran.buildings_apartments.entity.Building;
 import org.springframework.data.jpa.repository.JpaRepository;
 

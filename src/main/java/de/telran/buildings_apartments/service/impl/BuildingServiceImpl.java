@@ -142,7 +142,6 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    @Transactional
     public void deleteBuilding(Long buildingId) {
         Building building = findBuildingById(buildingId);
 
@@ -157,8 +156,8 @@ public class BuildingServiceImpl implements BuildingService {
                 .map(Owner::getId)
                 .collect(Collectors.toList());
 
-        ownerRepository.deleteAllByIdIsIn(ownersId);
-        apartmentRepository.deleteApartmentsByIdIsIn(apartmentsId);
+        ownerRepository.deleteAllById(ownersId);
+        apartmentRepository.deleteAllById(apartmentsId);
 
         repository.delete(building);
     }
