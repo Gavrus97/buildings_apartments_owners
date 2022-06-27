@@ -1,13 +1,10 @@
 package de.telran.buildings_apartments.service;
 
-import de.telran.buildings_apartments.dto.ApartmentResponseDTO;
-import de.telran.buildings_apartments.dto.BuildingRequestDTO;
-import de.telran.buildings_apartments.dto.BuildingResponseDTO;
-import de.telran.buildings_apartments.entity.Apartment;
-import de.telran.buildings_apartments.entity.Building;
+import de.telran.buildings_apartments.controller.dto.ApartmentResponseDTO;
+import de.telran.buildings_apartments.controller.dto.BuildingRequestDTO;
+import de.telran.buildings_apartments.controller.dto.BuildingResponseDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BuildingService {
 

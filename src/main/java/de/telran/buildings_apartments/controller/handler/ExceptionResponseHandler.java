@@ -1,6 +1,6 @@
-package de.telran.buildings_apartments.response_handler;
+package de.telran.buildings_apartments.controller.handler;
 
-import de.telran.buildings_apartments.dto.HttpResponseDTO;
+import de.telran.buildings_apartments.controller.dto.HttpResponseDTO;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;

@@ -1,9 +1,9 @@
 package de.telran.buildings_apartments.service.impl;
 
-import de.telran.buildings_apartments.dto.ApartmentResponseDTO;
-import de.telran.buildings_apartments.dto.BuildingRequestDTO;
-import de.telran.buildings_apartments.dto.BuildingResponseDTO;
-import de.telran.buildings_apartments.dto.OwnerResponseDTO;
+import de.telran.buildings_apartments.controller.dto.ApartmentResponseDTO;
+import de.telran.buildings_apartments.controller.dto.BuildingRequestDTO;
+import de.telran.buildings_apartments.controller.dto.BuildingResponseDTO;
+import de.telran.buildings_apartments.controller.dto.OwnerResponseDTO;
 import de.telran.buildings_apartments.entity.Apartment;
 import de.telran.buildings_apartments.entity.Building;
 import de.telran.buildings_apartments.entity.Owner;
@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,7 +63,7 @@ public class BuildingServiceImpl implements BuildingService {
                 .collect(Collectors.toList());
     }
 
-    //???????????????????????????????????????????
+
     @Override
     public List<ApartmentResponseDTO> getApartmentsWithOwnersById(Long buildingId) {
         return apartmentRepository
@@ -117,28 +116,6 @@ public class BuildingServiceImpl implements BuildingService {
         owner.setApartment(null);
         ownerRepository.save(owner);
 
-
-//        Building building = findBuildingById(buildingId); // для not found
-//        Apartment apartment = getApartmentByApartmentId(apartmentId); // для not fount
-//
-//        if (apartment.getBuilding().getId().equals(buildingId)) {
-//            Owner owner = getOwnerByOwnerId(ownerId);
-//
-//            if (owner.getApartment() == null) {
-//                throw new ResponseStatusException(HttpStatus.CONFLICT,
-//                        String.format("The owner with id [%s] has no apartment !", ownerId));
-//            } else if (owner.getApartment().getId().equals(apartmentId)) {
-//                owner.setApartment(null);
-//                ownerRepository.save(owner);
-//            } else
-//                throw new ResponseStatusException(HttpStatus.CONFLICT,
-//                        String.format("The owner with id [%s] isn't an owner of the apartment with id ", ownerId)
-//                                + String.format("[%s]", apartmentId));
-//
-//        } else
-//            throw new ResponseStatusException(HttpStatus.CONFLICT,
-//                    String.format("The apartment with id [%s] isn't in the building with id ", apartmentId)
-//                            + String.format("[%s]", buildingId));
     }
 
     @Override

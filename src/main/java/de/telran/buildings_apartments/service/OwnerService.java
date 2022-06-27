@@ -1,7 +1,7 @@
 package de.telran.buildings_apartments.service;
 
-import de.telran.buildings_apartments.dto.OwnerRequestDTO;
-import de.telran.buildings_apartments.dto.OwnerResponseDTO;
+import de.telran.buildings_apartments.controller.dto.OwnerRequestDTO;
+import de.telran.buildings_apartments.controller.dto.OwnerResponseDTO;
 
 import java.util.List;
 

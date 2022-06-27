@@ -1,8 +1,8 @@
 package de.telran.buildings_apartments.controller;
 
-import de.telran.buildings_apartments.dto.ApartmentResponseDTO;
-import de.telran.buildings_apartments.dto.BuildingRequestDTO;
-import de.telran.buildings_apartments.dto.BuildingResponseDTO;
+import de.telran.buildings_apartments.controller.dto.ApartmentResponseDTO;
+import de.telran.buildings_apartments.controller.dto.BuildingRequestDTO;
+import de.telran.buildings_apartments.controller.dto.BuildingResponseDTO;
 import de.telran.buildings_apartments.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

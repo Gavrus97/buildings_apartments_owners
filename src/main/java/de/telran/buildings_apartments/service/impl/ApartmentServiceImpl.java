@@ -1,8 +1,8 @@
 package de.telran.buildings_apartments.service.impl;
 
-import de.telran.buildings_apartments.dto.ApartmentRequestDTO;
-import de.telran.buildings_apartments.dto.ApartmentResponseDTO;
-import de.telran.buildings_apartments.dto.OwnerResponseDTO;
+import de.telran.buildings_apartments.controller.dto.ApartmentRequestDTO;
+import de.telran.buildings_apartments.controller.dto.ApartmentResponseDTO;
+import de.telran.buildings_apartments.controller.dto.OwnerResponseDTO;
 import de.telran.buildings_apartments.entity.Apartment;
 import de.telran.buildings_apartments.entity.Owner;
 import de.telran.buildings_apartments.repository.ApartmentRepository;

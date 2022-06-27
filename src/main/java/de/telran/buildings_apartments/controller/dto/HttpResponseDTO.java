@@ -1,4 +1,4 @@
-package de.telran.buildings_apartments.dto;
+package de.telran.buildings_apartments.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,7 +1,7 @@
 package de.telran.buildings_apartments.controller;
 
-import de.telran.buildings_apartments.dto.OwnerRequestDTO;
-import de.telran.buildings_apartments.dto.OwnerResponseDTO;
+import de.telran.buildings_apartments.controller.dto.OwnerRequestDTO;
+import de.telran.buildings_apartments.controller.dto.OwnerResponseDTO;
 import de.telran.buildings_apartments.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
