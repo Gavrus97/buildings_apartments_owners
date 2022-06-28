@@ -3,6 +3,7 @@ package de.telran.buildings_apartments.service;
 import de.telran.buildings_apartments.controller.dto.ApartmentResponseDTO;
 import de.telran.buildings_apartments.controller.dto.BuildingRequestDTO;
 import de.telran.buildings_apartments.controller.dto.BuildingResponseDTO;
+import de.telran.buildings_apartments.controller.dto.BuildingBulkRequestDTO;
 
 import java.util.List;
 
@@ -21,5 +22,7 @@ public interface BuildingService {
     void evictOwnerFromApartment(Long buildingId, Long apartmentId, Long ownerId);
 
     void deleteBuilding(Long buildingId);
+
+    void createACity(List<BuildingBulkRequestDTO> city);
 
 }

@@ -2,6 +2,7 @@ package de.telran.buildings_apartments.service;
 
 import de.telran.buildings_apartments.controller.dto.OwnerRequestDTO;
 import de.telran.buildings_apartments.controller.dto.OwnerResponseDTO;
+import de.telran.buildings_apartments.entity.Owner;
 
 import java.util.List;
 
@@ -16,5 +17,7 @@ public interface OwnerService {
     OwnerResponseDTO getById(Long id);
 
     List<Long> findOwnersIdsWithApartmentNotNull();
+
+    void saveAll(List<Owner> owners);
 
 }

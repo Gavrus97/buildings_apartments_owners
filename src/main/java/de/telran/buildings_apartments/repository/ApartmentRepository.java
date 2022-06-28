@@ -18,4 +18,7 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
 
     Apartment findApartmentByIdAndBuildingId(Long apartmentId, Long buildingId);
 
+
+
+    Apartment findApartmentByBuildingIdAndApartmentNumber(Long buildingId, Integer apartmentNumber);
 }

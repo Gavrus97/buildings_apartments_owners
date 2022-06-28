@@ -56,7 +56,11 @@ public class OwnerServiceImpl implements OwnerService {
         return convertToDTO(findOwnerById(id));
     }
 
+    @Override
+    public void saveAll(List<Owner> owners) {
 
+            repository.saveAll(owners);
+    }
 
     private Owner convertToOwnerEntity(OwnerRequestDTO ownerDto) {
         return Owner.builder()

@@ -11,4 +11,6 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
 
     List<Building> findBuildingsByStreet(String street);
 
+    Boolean existsByStreetAndHouse(String street, String house);
+
 }

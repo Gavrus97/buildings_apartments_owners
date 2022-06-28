@@ -3,6 +3,7 @@ package de.telran.buildings_apartments.controller;
 import de.telran.buildings_apartments.controller.dto.ApartmentResponseDTO;
 import de.telran.buildings_apartments.controller.dto.BuildingRequestDTO;
 import de.telran.buildings_apartments.controller.dto.BuildingResponseDTO;
+import de.telran.buildings_apartments.controller.dto.BuildingBulkRequestDTO;
 import de.telran.buildings_apartments.service.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,5 +66,10 @@ public class BuildingController {
     @DeleteMapping("/buildings/{id}/demolish")
     public void demolishBuilding(@PathVariable("id") Long buildingId){
         service.deleteBuilding(buildingId);
+    }
+
+    @PostMapping("/buildings/bulk")
+    public void createACity(@RequestBody List<BuildingBulkRequestDTO> city){
+        service.createACity(city);
     }
 }
