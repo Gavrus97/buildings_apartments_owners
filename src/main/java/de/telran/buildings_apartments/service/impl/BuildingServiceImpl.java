@@ -1,7 +1,6 @@
 package de.telran.buildings_apartments.service.impl;
 
 import de.telran.buildings_apartments.controller.dto.*;
-import de.telran.buildings_apartments.converters.Converters;
 import de.telran.buildings_apartments.entity.Apartment;
 import de.telran.buildings_apartments.entity.Building;
 import de.telran.buildings_apartments.entity.Owner;
@@ -14,7 +13,6 @@ import de.telran.buildings_apartments.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -35,6 +33,7 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Autowired
     private OwnerService ownerService;
+
 
     @Override
     public void create(BuildingRequestDTO buildingDto, int apartmentsCount) {
@@ -139,44 +138,6 @@ public class BuildingServiceImpl implements BuildingService {
 
         repository.delete(building);
     }
-
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void createACity(List<BuildingBulkRequestDTO> city) {
-        for (var building : city) {
-            createBuildingForCity(building);
-        }
-    }
-
-
-    private void createBuildingForCity(BuildingBulkRequestDTO building) {
-
-        if (repository.existsByStreetAndHouse(building.getStreet(), building.getHouse())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    String.format("Building with number [%s] and street name ", building.getHouse()
-                            + String.format("[%s] already exists", building.getStreet())));
-        }
-
-        repository.save(Converters.convertBulkDtoToBuilding(building));
-
-        Building savedBuilding = repository
-                .findBuildingByHouseAndStreet(building.getHouse(), building.getStreet());
-
-        for (var apartment : building.getApartments()) {
-
-            var apartmentToSave = Converters.convertToApartmentEntity(apartment, savedBuilding);
-            apartmentRepository.save(apartmentToSave);
-            Apartment savedApartment = apartmentRepository.findApartmentByBuildingIdAndApartmentNumber(
-                    savedBuilding.getId(), apartment.getApartmentNumber()
-            );
-
-            var owners = Converters.convertBulkToOwners(apartment.getOwners(), savedApartment);
-            ownerRepository.saveAll(owners);
-        }
-    }
-
-
 
     private Apartment getApartmentByApartmentId(Long id) {
         return apartmentRepository.findById(id).orElseThrow(

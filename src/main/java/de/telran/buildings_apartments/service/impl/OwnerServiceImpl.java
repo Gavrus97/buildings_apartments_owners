@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.sound.midi.Soundbank;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,9 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Autowired
     private ApartmentRepository apartmentRepository;
+
+    @Autowired
+    private ApartmentServiceImpl apartmentService;
 
     @Override
     public List<Long> findOwnersIdsWithApartmentNotNull() {
@@ -59,13 +63,15 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public void saveAll(List<Owner> owners) {
 
-            repository.saveAll(owners);
+        repository.saveAll(owners);
     }
 
     private Owner convertToOwnerEntity(OwnerRequestDTO ownerDto) {
+        //var apartment = apartmentService.findApartmentById(ownerDto.getApartmentId());
         return Owner.builder()
                 .name(ownerDto.getName())
-                .apartment(apartmentRepository.findById(ownerDto.getApartmentId()).orElseThrow())
+                .apartment(null)
+                //.apartment(apartmentRepository.findById(ownerDto.getApartmentId()).orElseThrow())
                 .build();
     }
 
@@ -76,7 +82,7 @@ public class OwnerServiceImpl implements OwnerService {
         );
     }
 
-    private OwnerResponseDTO convertToDTO(Owner owner){
+    private OwnerResponseDTO convertToDTO(Owner owner) {
         return OwnerResponseDTO.builder()
                 .name(owner.getName())
                 .build();

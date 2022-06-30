@@ -68,8 +68,4 @@ public class BuildingController {
         service.deleteBuilding(buildingId);
     }
 
-    @PostMapping("/buildings/bulk")
-    public void createACity(@RequestBody List<BuildingBulkRequestDTO> city){
-        service.createACity(city);
-    }
 }

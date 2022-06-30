@@ -15,6 +15,4 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
     List<Owner> findOwnersByApartmentIsIn(List<Apartment> apartments);
 
-    Boolean existsAllByName(List<String> names);
-
 }

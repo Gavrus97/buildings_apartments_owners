@@ -56,7 +56,7 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     }
 
-    private Apartment findApartmentById(Long id) {
+    protected Apartment findApartmentById(Long id) {
         return repository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         String.format("Apartment with id [%s] doesnt exist", id))

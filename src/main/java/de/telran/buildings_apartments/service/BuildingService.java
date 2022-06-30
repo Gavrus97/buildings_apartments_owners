@@ -22,7 +22,4 @@ public interface BuildingService {
     void evictOwnerFromApartment(Long buildingId, Long apartmentId, Long ownerId);
 
     void deleteBuilding(Long buildingId);
-
-    void createACity(List<BuildingBulkRequestDTO> city);
-
 }
